@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll View</title>
+    <link rel="icon" type="image/png" href="../images/proll.png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script src="../script/index2.js" defer></script>
+</head>
+<body>
+
+
+<style>
+/* Main Content Styling for 13x8.5 inches */
+#pdf-content {
+    width: 12.6in;  /* Slightly reduced to prevent overflow */
+    padding: 0.2in; /* Consistent inner padding */
+    box-sizing: border-box;
+}
+
+/* Default margin for all pages in the HTML view */
+.second-page {
+    margin-top: 20px;
+}
+/* Force a page break for the second page during print or PDF download */
+.second-page {
+  page-break-before: always;
+  break-before: page;
+}
+/* Hide download button when printing or generating PDF */
+@media print {
+    #download-pdf {
+        display: none;
+    }
+}
+
+/* Print-specific styles */
+@media print {
+    /* Add page break only before the second page */
+    .second-page {
+        page-break-before: always;
+        margin-top: 118px; /* Specific top margin for print */
+    }
+    /* Hide elements that shouldn't appear in print */
+    .no-print {
+        display: none;
+    }
+}
+
+
+</style>
+    <!-- Wrapper for All Pages -->
+    <div id="pdf-content">
+        <!-- ======================== FIRST PAGE ======================== -->
+        <div class="pagefirst">
+            <div class="payroll-header">
+            <!-- Download Button -->
+                <button id="download-pdf" class="no-print">Download as PDF</button>
+                <img src='../images/logo1.png' class="logo-left">
+                <div class="logo-right-container">
+                    <img src='../images/logo2.png' class="logo-right">
+                    <img src='../images/logo2.2.png' class="logo-right-bg">
+                </div>
+                <h3>PAYROLL</h3>
+                <p>For the period of <span id="date_start"></span> - <span id="date_end"></span></p>
+            </div>
+
+            <div class="details">
+                <div class="details-group">
+                    <p>LGU: General Santos City, 9, South Cotabato</p>
+                    <p>Responsibility Center: <span id="responsibility" class="underline">&nbsp;</span></p>
+                    <p>Payroll No.: <span id="payrollNo" class="underline">&nbsp;</span></p>
+                </div>
+
+                <div class="details-group align-end">
+                    <p>Fund: <span class="underline">&nbsp;</span></p>
+                    <p>Office: <span id="office" class="underline">&nbsp;</span></p>
+                    <p>
+                        Sheet <span id='sheet-no' class="underline">1</span> of 
+                        <span id='total-sheets' class="underline">1</span> Sheets
+                    </p>
+                </div>
+            </div>
+
+            <p class="payroll-note">
+                We acknowledge receipts of cash shown opposite our names as full compensation for services rendered for the period covered.
+            </p>
+
+            <!-- Payroll Table -->
+            <table class="payroll-table expandable">
+                <thead>
+                    <tr>
+                        <th rowspan="4">#</th>
+                        <th rowspan="4">Name</th>
+                        <th rowspan="4">Position</th>
+                        <th rowspan="4">Emp#</th>
+                        <th colspan="3">COMPENSATIONS</th>
+                        <th colspan="16">DEDUCTIONS</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="3">Salaries and Wages</th>
+                        <th rowspan="3">PERA</th>
+                        <th rowspan="3">Gross Amount Earned</th>
+                        <th rowspan="3">Tardiness / Under Time</th>
+                        <th rowspan="3">Tax Withheld</th>
+                        <th colspan="8">CONTRIBUTIONS</th>
+                        <th colspan="3">PAGIBIG LOANS</th>
+                        <th colspan="3">OTHERS</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Phil Health</th>
+                        <th colspan="3">PAGIBIG Fund</th>
+                        <th colspan="3">GSIS</th>
+                        <th rowspan="2">MPL</th>
+                        <th rowspan="2">Housing</th>
+                        <th rowspan="2">Lot Purchase / HEAL</th>
+                        <th rowspan="2">GSCGEA Dues</th>
+                        <th rowspan="2">GSCGEA Other Dues</th>
+                        <th rowspan="2">GSC Coop</th>
+                    </tr>
+                    <tr>
+                        <th>Personal</th>
+                        <th>Gov't</th>
+                        <th>Personal</th>
+                        <th>Gov't</th>
+                        <th>PagIBIG II</th>
+                        <th>Personal</th>
+                        <th>Gov't</th>
+                        <th>ECC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="expandable">
+                        <td>num</td> 
+                        <td>name</td> 
+                        <td>position</td>
+                        <td>emp_no</td> 
+                        <td>sal</td> 
+                        <td>pera</td> 
+                        <td>gross_amt</td>
+                        <td>tard</td> 
+                        <td>tax_wh</td> 
+                        <td>ph_per</td> 
+                        <td>ph_gov</td>
+                        <td>pag_per</td> 
+                        <td>pag_gov</td> 
+                        <td>pag2</td> 
+                        <td>gsis_per</td> 
+                        <td>gsis_gov</td> 
+                        <td>ecc</td>
+                        <td>mpl</td> 
+                        <td>housing</td> 
+                        <td>lh</td> 
+                        <td>gscgea_dues</td> 
+                        <td>gscgea_other</td> 
+                        <td>gsc_coop</td>
+                    </tr>
+
+                    <!-- Page total -->
+                    <tr class="expandable">
+                        <td colspan="4" rowspan="2">Page Total:</td>
+                        <td>p_salaries</td>
+                        <td>p_pera</td>
+                        <td rowspan="2">p_gross</td>
+                        <td rowspan="2">p_tardiness</td>
+                        <td rowspan="2">p_tax</td>
+                        <td>p_philper</td>
+                        <td>p_philgovt</td>
+                        <td>p_pagper</td>
+                        <td>p_paggovt</td>
+                        <td>p_pag2</td>
+                        <td>p_gsis_per</td>
+                        <td>p_gsis_govt</td>
+                        <td>p_ecc</td>
+                        <td>p_mpl</td>
+                        <td>p_housing</td>
+                        <td>p_lotpurchase</td>
+                        <td>p_dues</td>
+                        <td>p_otherdues</td>
+                        <td>p_coop</td>
+                    </tr>
+                    <!-- Second Row -->
+                    <tr class="expandable">
+                        <td colspan="2">p_total_salarypera</td>
+                        <td colspan="2">p_totalphil</td>
+                        <td colspan="3">p_totalpag</td>
+                        <td colspan="3">p_totalgsis</td>
+                        <td colspan="3">p_totalpagloans</td>
+                        <td colspan="3">p_totalothers</td>
+                    </tr>
+                    <!-- Grand total -->
+                    <tr class="expandable">
+                        <td colspan="4" rowspan="2">Grand Total:</td>
+                        <td>g_salaries</td>
+                        <td>g_pera</td>
+                        <td rowspan="2">g_gross</td>
+                        <td rowspan="2">g_tardiness</td>
+                        <td rowspan="2">g_tax</td>
+                        <td>g_philper</td>
+                        <td>g_philgovt</td>
+                        <td>g_pagper</td>
+                        <td>g_paggovt</td>
+                        <td>g_pag2</td>
+                        <td>g_gsis_per</td>
+                        <td>g_gsis_govt</td>
+                        <td>g_ecc</td>
+                        <td>g_mpl</td>
+                        <td>g_housing</td>
+                        <td>g_lotpurchase</td>
+                        <td>g_dues</td>
+                        <td>g_otherdues</td>
+                        <td>g_coop</td>
+                    </tr>
+                    <!-- Second Row -->
+                    <tr class="expandable">
+                        <td colspan="2">g_total_salarypera</td>
+                        <td colspan="2">g_totalphil</td>
+                        <td colspan="3">g_totalpag</td>
+                        <td colspan="3">g_totalgsis</td>
+                        <td colspan="3">g_totalpagloans</td>
+                        <td colspan="3">g_totalothers</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- ======================== Certified Card Grid ======================== -->
+        <div class="pageBelow1st">
+            <div class="card_container">
+                <div class="section">
+                    <div class="section-title">A</div>
+                    <div class="section-content">
+                        <strong style="display: inline-block; margin-bottom: 30px;">CERTIFIED:</strong> Services duly rendered as stated.
+                        <div class="signature-row">
+                            <div class="signature-details">
+                                <strong>HON. LORELIE G. PACQUIAO</strong>
+                                <div class="signature-line"></div>
+                                <div class="title">Signature over Printed Name<br>Authorized Official</div>
+                            </div>
+                            <div class="date-section">
+                                <div class="date-line"></div>
+                                <div class="title">Date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">B</div>
+                    <div class="section-content">
+                        <strong style="display: inline-block; margin-bottom: 30px;">CERTIFIED:</strong> Supporting documents complete and proper.
+                        <div class="signature-row">
+                            <div class="signature-details">
+                                <strong>FLABERT B. VILLASENCIO</strong>
+                                <div class="signature-line"></div>
+                                <div class="title">Acting CGDH II<br>Head of Accounting Division / Unit</div>
+                            </div>
+                            <div class="date-section">
+                                <div class="date-line"></div>
+                                <div class="title">Date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">C</div>
+                    <div class="section-content">
+                        <strong style="display: inline-block; margin-bottom: 30px;">CERTIFIED:</strong> Cash available for the purpose.
+                        <div class="signature-row">
+                            <div class="signature-details">
+                                <strong>ZENAIDA G. ETURMA</strong>
+                                <div class="signature-line"></div>
+                                <div class="title">City Treasurer</div>
+                            </div>
+                            <div class="date-section">
+                                <div class="date-line"></div>
+                                <div class="title">Date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">D</div>
+                    <div class="section-content">
+                        <strong style="display: inline-block; margin-bottom: 30px;">APPROVE FOR PAYMENT:</strong> <span class="amount">₱116,651.49</span>
+                        <div class="signature-row">
+                            <div class="signature-details">
+                                <strong>HON. LORELIE G. PACQUIAO</strong>
+                                <div class="signature-line"></div>
+                                <div class="title">City Mayor</div>
+                            </div>
+                            <div class="date-section">
+                                <div class="date-line"></div>
+                                <div class="title">Date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">E</div>
+                    <div class="section-content">
+                        <strong style="margin-bottom: 30px;">CERTIFIED:</strong> Each employee whose name appears on the payroll has been paid the amount as indicated opposite his/her name.
+                        <div class="signature-row">
+                            <div class="signature-details">
+                                <div style="display: inline-block; margin-top: 30px;" class="signature-line"></div>
+                                <div class="title">Signature over Printed Name<br>Disbursing Officer</div>
+                            </div>
+                            <div class="date-section">
+                                <div class="date-line"></div>
+                                <div class="title">Date</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" style="display: flex; justify-content: center; align-items: center;position: relative;">
+                    <div class="section-title">F</div>
+                    <div class="section-content">
+                        <div class="signature-row">
+                            <div class="signature-details" style="text-align: center;">
+                                <strong style="display: inline-block; ">CAFOA No:______________</strong>  
+                                <span style="margin-left: 30px;">Date:______________</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+
+        <!-- ======================== Certified Card Grid  G======================== -->
+        <div class="pageletterG">
+            <div class="section">
+                <div class="section-title">G</div>
+                <div class="section-content">
+                    <strong>ACCOUNTING ENTRIES</strong>
+                    <table class="accounting-table">
+                        <tr>
+                            <th>Particulars</th>
+                            <th>Account Code</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Particulars</th>
+                            <th>Account Code</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prepared By & Certified Correct Section -->
+        <div class="signature-container">
+            <div class="signature-box">
+                <strong>Prepared by:</strong>
+                <div class="signature-lineG"></div>
+            </div>
+
+            <div class="signature-box">
+                <strong>Certified Correct:</strong>
+                <div class="signature-lineG"></div>
+                <div class="name">FLABERT B. VILLASENCIO</div>
+                <div class="position">Acting CGDH II</div>
+            </div>
+        </div>
+
+
+        <!-- ======================== Page Break 2nd page ======================== -->
+        <div class="second-page">
+            <table class="payroll-table">
+                <thead>
+                    <tr>
+                        <th rowspan="3">#</th>
+                        <th rowspan="3">Name</th>
+                        <th rowspan="3">Position</th>
+                        <th rowspan="3">Emp#</th>
+                        <th colspan="8">DEDUCTIONS</th> 
+                        <th rowspan="3">Gross Gov't Deduction</th>
+                        <th rowspan="3">Gross Personal Deduction</th>
+                        <th rowspan="3">Net TakeHome Pay</th>
+                        <th rowspan="3">1st Half Proceeds</th>
+                        <th rowspan="3">2nd Half Proceeds</th> 
+                    </tr>
+                    <tr>
+                        <th colspan="7">GSIS DEDUCTIONS</th>  
+                        <th>Bank Loan</th> 
+                    </tr>
+                    <tr>
+                        <th>GSIS MPL</th>
+                        <th>CEAP</th>
+                        <th>Computer Loan</th>
+                        <th>MPL Lite</th>
+                        <th>PL (Regular)</th>
+                        <th>GSIS-EL</th>
+                        <th>GFAL</th>
+                        <th>LBP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="expandable">
+                        <td>num</td> 
+                        <td>name</td>
+                        <td>position</td> 
+                        <td>emp_no</td> 
+                        <td>gsis_mpl</td> 
+                        <td>ceap</td> 
+                        <td>comp_loan</td>
+                        <td>mpl_lite</td> 
+                        <td>pl_reg</td> 
+                        <td>gsis_el</td>
+                        <td>gfal</td> 
+                        <td>lbp</td> 
+                        <td>gross_gov_ded</td> 
+                        <td>gross_per_ded</td>
+                        <td>net_pay</td> 
+                        <td>first_half</td> 
+                        <td>second_half</td>
+                    </tr>
+
+                    <!-- Page total -->
+                    <tr class="expandable">
+                        <td colspan="4" rowspan="2">Page Total:</td>
+                        <td>p_gsis_mpl</td>
+                        <td>p_ceap</td>
+                        <td>p_comp</td>
+                        <td>p_mpl_lite</td>
+                        <td>p_pl_reg</td>
+                        <td>p_gsis_el</td>
+                        <td>p_gfal</td>
+                        <td>p_lbp_tot</td>
+                        <td rowspan="2">p_gross_gov_ded</td>
+                        <td rowspan="2">p_gross_per_ded</td>
+                        <td rowspan="2">p_net_pay</td>
+                        <td>p_first_half</td>
+                        <td>p_second_half</td>
+                    </tr>
+                    <tr class="expandable">
+                        <td colspan="3">p_total_gsis-comp</td>
+                        <td colspan="4">p_total_mpl-gfal</td>
+                        <td>p_total-lbp</td>
+                        <td colspan="2">p_total_proceeds</td>
+                    </tr>
+
+                    <!-- Grand total -->
+                    <tr class="expandable">
+                        <td colspan="4" rowspan="2">Grand Total:</td>
+                        <td>g_gsis_mpl</td>
+                        <td>g_ceap</td>
+                        <td>g_comp</td>
+                        <td>g_mpl_lite</td>
+                        <td>g_pl_reg</td>
+                        <td>g_gsis_el</td>
+                        <td>g_gfal</td>
+                        <td>g_lbp_tot</td>
+                        <td rowspan="2">g_gross_gov_ded</td>
+                        <td rowspan="2">g_gross_per_ded</td>
+                        <td rowspan="2">g_net_pay</td>
+                        <td>g_first_half</td>
+                        <td>g_second_half</td>
+                    </tr>
+                    <tr class="expandable">
+                        <td colspan="3">g_total_gsis-comp</td>
+                        <td colspan="4">g_total_mpl-gfal</td>
+                        <td>g_total-lbp</td>
+                        <td colspan="2">g_total_proceeds</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

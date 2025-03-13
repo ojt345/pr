@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Request Form</title>
+    <link rel="icon" type="image/png" href="form.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/requeststyles.css">
+    <script defer src="../script/search_script.js"></script>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="form-container p-4 shadow-lg">
+            <div class="payroll-header">
+                <img src="../images/logo1.png" class="logo-left">
+                <h2 class="header-title">Payroll Request Form</h2>
+                <img src="../images/logo2.png" class="logo-right">
+            </div>
+
+
+        <!-- Note for Users -->
+        <div class="alert alert-info" role="alert">
+            <strong>Note:</strong> You can either enter a <strong>Payroll No.</strong> or provide all other details (Start Date, End Date, Responsibility Center, and Office) for searching.
+        </div>
+
+
+            <form id="payrollRequestForm">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">LGU:</label>
+                        <select class="form-select" id="lgu">
+                            <option value="General Santos City">General Santos City, South Cotabato</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Payroll No.:</label>
+                        <input type="text" class="form-control" id="payrollNo" placeholder="Enter Payroll No.">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label class="form-label">For the Period of:</label>
+                    <div class="col-md-4">
+                        <label class="form-label">Start Date:</label>
+                        <input type="date" class="form-control" id="date_start">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">End Date:</label>
+                        <input type="date" class="form-control" id="date_end">
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Responsibility Center:</label>
+                        <select class="form-select" id="responsibility">
+                            <option value="" disabled selected>None</option>
+                            <option value="HR Department">HR Department</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT Support">IT Support</option>
+                        </select>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <label class="form-label">Office:</label>
+                        <select class="form-select" id="office">
+                            <option value="" disabled selected>None</option>
+                            <option value="Main Office">Main Office</option>
+                            <option value="Branch 1">Branch 1</option>
+                            <option value="Branch 2">Branch 2</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">Apply</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,233 @@
+
+body {
+    padding: 20px;
+    font-size: 10px;
+    
+}
+/* Ensure Arial is applied globally */
+body, table, th, td, input, select, textarea, button {
+    font-family: Arial !important;
+}
+.payroll-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.payroll-header, .payroll-footer {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.details {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.details-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px; /* Adjust as needed */
+    width: 100%;
+}
+
+.details-group p {
+    margin: 0;
+}
+
+.underline {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    min-width: 100px; /* Ensure consistent width */
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+table, th, td {
+    border: 1px solid #000;
+}
+th, td {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    text-align: center;
+    padding: 2px;
+    font-size: 9px;
+}
+.expandable td {
+    white-space: normal;
+    word-wrap: break-word;
+}
+.logo-left { 
+    float: left;
+    margin-top: -15px; /* Moves logo down */
+    width: 60px;
+}
+
+.logo-right-container {
+    position: relative;
+    display: inline-block;
+    float: right;
+    margin-top: -15px; /* Moves logo down */
+    margin-right: 20px;
+}
+
+.logo-right {
+    position: relative;
+    width: 140px;
+    z-index: 2;
+}
+
+.logo-right-bg {
+    position: absolute;
+    top: 50px; /* Adjust background position */
+    left: -10px;
+    width: 160px;
+    border-radius: 50%;
+    opacity: .6;
+    z-index: 1;
+}
+
+.payroll-note {
+    margin-top: -8px;
+}
+
+/* Ensure alignment for both tables */
+.payroll-table {
+    width: 100%;
+    table-layout: fixed; /* Ensures consistent column widths */
+}
+.title2{
+    display: block;
+    margin-top: 5px;
+    margin-left: 30px;
+    margin-bottom: 10px;
+    width:100%;
+}
+
+    
+.card_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 0px;
+}
+.section {
+    border: 1px solid black;
+    padding: 10px;
+    position: relative;
+    font-size: 9px;
+}
+
+.section-title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: white;
+  padding: 0 5px;
+  border: 1px solid black;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.section-content {
+  margin-left: 25px;
+  font-size: 10px;
+}
+
+.signature-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signature-details {
+  text-align: center;
+  flex-grow: 1;
+}
+.signature-details strong {
+    display: block;
+  }
+  
+
+.date-section {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.signature-line {
+  border-bottom: 1px solid black;
+  width: 200px; 
+  margin: auto;
+}
+
+.date-line {
+  border-bottom: 1px solid black;
+  width: 100px; 
+  margin: 10px auto;
+}
+
+.title {
+  font-size: 9px;
+  margin-top: 5px;
+}
+.amount {
+  font-weight: bold;
+}
+.accounting-table {
+  width: 98%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  
+}
+.accounting-table th, .accounting-table td {
+  border: 1px solid black;
+  padding: 8px; 
+  text-align: center;
+  font-size: 10px;
+}
+.accounting-table th {
+  background-color: #f0f0f0;
+}
+
+
+.signature-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.signature-box {
+    width: 25%;
+    text-align: left;
+}
+.signature-lineG {
+    border-bottom: 1px solid black;
+    width: 50%;
+    margin: 10px 0 5px 90px;
+}
+.name {
+    font-weight: bold;
+    text-align: center;
+}
+.position {
+    text-align: center;
+    font-size: 9px;
+}
+
+
+@media print {
+    body {
+        padding: 0;
+        margin: 0;
+        font-size: 10px;
+    }
+
+    .payroll-container {
+        width: 100%;
+    }
+    #download-pdf {
+        display: none !important; /* Hides download button during print */
+    }
+}
